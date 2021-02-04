@@ -35,19 +35,41 @@
     // 削除フォームの変数定義
     $delete = $_POST["delete"];
     
+    //通し番号
     $fp = fopen($filename, "r");
     for( $count = 1; fgets( $fp ); $count++ ); 
     fclose($fp);
     
-    if($name !== null && $comment !== null ) {
+    //ファイルへの書き込み（投稿フォーム）
+    if(isset($name, $comment)) {
         $fp = fopen($filename,"a");
         $data = $count . "<>" . $name . "<>" . $comment . "<>" . $date . PHP_EOL; 
         fwrite($fp, $data);
         fclose($fp);
     } 
+    
+    //ファイルへの書き込み（削除フォーム）
+    if(isset($delete)){
+        $fp = fopen($filename, "a");
+        ftruncate($fp, 0); //ファイルを空にする
+        fclose($fp);
+        foreach($items as $item) {
+            $outcome =explode("<>", $item);
+            if($delete !== $count) {
+                $fp = fopen($filename,"a");
+                $data = $count . "<>" . $name . "<>" . $comment . "<>" . $date . PHP_EOL; 
+                fwrite($fp, $data);
+                fclose($fp);
+            }else {
+                //書き込まない
+            }
+        }
+    }
+    
+    
         
     
-    
+    //ブラウザへの表示
     if(file_exists($filename)) {
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
         foreach($lines as $line) {
