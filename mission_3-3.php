@@ -53,6 +53,7 @@
         $fp = fopen($filename, "a");
         ftruncate($fp, 0); //ファイルを空にする
         fclose($fp);
+        $items = file($filename, FILE_IGNORE_NEW_LINES);
         foreach($items as $item) {
             $outcome =explode("<>", $item);
             if($delete !== $count) {
