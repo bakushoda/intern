@@ -49,20 +49,20 @@
     } 
     
     //ファイルへの書き込み（削除フォーム）
-    if(isset($delete)){
-        $fp = fopen($filename, "a");
+    if(isset($delete)){ //delete変数があるか判定
+        $fp = fopen($filename, "r");//読み込みモード
         ftruncate($fp, 0); //ファイルを空にする
-        fclose($fp);
-        $items = file($filename, FILE_IGNORE_NEW_LINES);
-        foreach($items as $item) {
-            $outcome =explode("<>", $item);
-            if($delete !== $count) {
-                $fp = fopen($filename,"a");
-                $data = $count . "<>" . $name . "<>" . $comment . "<>" . $date . PHP_EOL; 
-                fwrite($fp, $data);
-                fclose($fp);
+        fclose($fp);//ファイルをクローズ
+        $items = file($filename, FILE_IGNORE_NEW_LINES);//items変数を定義
+        foreach($items as $item) {//配列を変数に代入してループ処理
+            $outcome =explode("<>", $item);//文字列を分割
+            if($delete !== $count) {//$deleteと$countが一致しない場合
+                $fp = fopen($filename,"a");//追記モード
+                $data = $count . "<>" . $name . "<>" . $comment . "<>" . $date . PHP_EOL; //出力するデータ
+                fwrite($fp, $data);//書き込み
+                fclose($fp);//クローズ
             }else {
-                //書き込まない
+                //変化なし
             }
         }
     }
