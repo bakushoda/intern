@@ -50,10 +50,10 @@
     
     //ファイルへの書き込み（削除フォーム）
     if(isset($delete)){ //delete変数があるか判定
+        $items = file($filename, FILE_IGNORE_NEW_LINES);//items変数を定義
         $fp = fopen($filename, "r");//読み込みモード
         ftruncate($fp, 0); //ファイルを空にする
         fclose($fp);//ファイルをクローズ
-        $items = file($filename, FILE_IGNORE_NEW_LINES);//items変数を定義
         foreach($items as $item) {//配列を変数に代入してループ処理
             $outcome =explode("<>", $item);//文字列を分割
             if($delete !== $count) {//$deleteと$countが一致しない場合
