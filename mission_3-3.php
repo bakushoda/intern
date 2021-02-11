@@ -51,14 +51,13 @@
     //ファイルへの書き込み（削除フォーム）
     if(isset($delete)){ //delete変数があるか判定
         $items = file($filename, FILE_IGNORE_NEW_LINES);//items変数を定義
-            $fp = fopen($filename, "r");//読み込みモード
-            ftruncate($fp, 0); //ファイルを空にする
+            $fp = fopen($filename, "w");//新規テキストファイルに書き込み
             fclose($fp);//ファイルをクローズ
         foreach($items as $item) {//配列を変数に代入してループ処理
             $outcome =explode("<>", $item);//文字列を分割
             if($delete !== $outcome[0]) {//$deleteと$outcome[0]が一致しない場合
                 $fp = fopen($filename,"a");//追記モード
-                fwrite($fp, $item);//書き込み
+                fwrite($fp, $item.PHP_EOL);//書き込み
                 fclose($fp);//クローズ
             }else {
                 //変化なし
